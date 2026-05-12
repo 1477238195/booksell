@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coding.mapper.ForumTopicMapper">
+
+    <resultMap id="TopicVOResultMap" type="com.coding.entity.ForumTopic">
+        <id column="topic_id" property="topicId"/>
+        <result column="board_id" property="boardId"/>
+        <result column="user_id" property="userId"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="book_id" property="bookId"/>
+        <result column="view_count" property="viewCount"/>
+        <result column="reply_count" property="replyCount"/>
+        <result column="last_reply_at" property="lastReplyAt"/>
+        <result column="last_reply_user_id" property="lastReplyUserId"/>
+        <result column="pinned" property="pinned"/>
+        <result column="locked" property="locked"/>
+        <result column="deleted" property="deleted"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="author_name" property="authorName"/>
+        <result column="book_title" property="bookTitle"/>
+        <result column="book_cover" property="bookCover"/>
+        <result column="last_reply_author_name" property="lastReplyAuthorName"/>
+    </resultMap>
+
+    <sql id="TopicSelectCols">
+        t.topic_id, t.board_id, t.user_id, t.title, t.content, t.book_id,
+        t.view_count, t.reply_count, t.last_reply_at, t.last_reply_user_id,
+        t.pinned, t.locked, t.deleted, t.create_time, t.update_time,
+        u.username AS author_name,
+        b.title AS book_title,
+        b.cover_image AS book_cover,
+        lu.username AS last_reply_author_name
+    </sql>
+
+    <select id="selectTopicList" resultMap="TopicVOResultMap">
+        SELECT
+        <include refid="TopicSelectCols"/>
+        FROM forum_topic t
+        LEFT JOIN `user` u ON t.user_id = u.user_id
+        LEFT JOIN book b ON t.book_id = b.book_id AND b.deleted = 0
+        LEFT JOIN `user` lu ON t.last_reply_user_id = lu.user_id
+        WHERE t.deleted = 0
+        <if test="boardId != null">
+            AND t.board_id = #{boardId}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND (t.title LIKE CONCAT('%', #{keyword}, '%') OR t.content LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        <if test="bookId != null">
+            AND t.book_id = #{bookId}
+        </if>
+        ORDER BY t.pinned DESC, COALESCE(t.last_reply_at, t.create_time) DESC
+    </select>
+
+    <select id="selectTopicById" resultMap="TopicVOResultMap">
+        SELECT
+        <include refid="TopicSelectCols"/>
+        FROM forum_topic t
+        LEFT JOIN `user` u ON t.user_id = u.user_id
+        LEFT JOIN book b ON t.book_id = b.book_id AND b.deleted = 0
+        LEFT JOIN `user` lu ON t.last_reply_user_id = lu.user_id
+        WHERE t.topic_id = #{topicId} AND t.deleted = 0
+    </select>
+
+    <update id="increaseViewCount">
+        UPDATE forum_topic SET view_count = IFNULL(view_count, 0) + 1 WHERE topic_id = #{topicId} AND deleted = 0
+    </update>
+
+    <update id="softDeleteTopic">
+        UPDATE forum_topic SET deleted = 1, update_time = NOW() WHERE topic_id = #{topicId}
+    </update>
+</mapper>

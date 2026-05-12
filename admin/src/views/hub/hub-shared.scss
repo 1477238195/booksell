@@ -1,0 +1,281 @@
+/* 卡片导航页公共样式：与市集首页暖纸 + 酒红体系一致 */
+
+.hub-page {
+  position: relative;
+  min-height: calc(100vh - 72px);
+  margin: -10px;
+  padding: 24px 22px 40px;
+  overflow: hidden auto;
+}
+
+.hub-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(1000px 480px at 6% -8%, rgba(154, 47, 60, 0.14), transparent 52%),
+    radial-gradient(820px 420px at 94% 12%, rgba(255, 106, 0, 0.1), transparent 48%),
+    radial-gradient(640px 380px at 50% 100%, rgba(123, 31, 42, 0.06), transparent 42%),
+    linear-gradient(168deg, #faf6ef 0%, #f6f1e9 45%, #efe8dc 100%);
+  pointer-events: none;
+}
+
+.hub-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 22px;
+}
+
+.hub-hero {
+  text-align: center;
+  width: 100%;
+}
+
+@media (min-width: 769px) {
+  .hub-hero {
+    text-align: left;
+    padding-left: 4px;
+  }
+}
+
+.hub-kicker {
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #9a2f3c;
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+.hub-title {
+  font-size: clamp(26px, 3.6vw, 34px);
+  font-weight: 800;
+  color: #2c1810;
+  line-height: 1.2;
+  margin: 0 0 10px;
+  letter-spacing: -0.02em;
+  font-family: 'Songti SC', 'SimSun', serif;
+}
+
+.hub-sub {
+  margin: 0;
+  font-size: 15px;
+  color: #6b5344;
+  line-height: 1.65;
+  max-width: 52ch;
+}
+
+@media (max-width: 768px) {
+  .hub-sub {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.hub-panel {
+  width: 100%;
+  background: rgba(255, 254, 251, 0.96);
+  backdrop-filter: blur(14px);
+  border-radius: 22px;
+  box-shadow:
+    0 1px 2px rgba(44, 24, 16, 0.05),
+    0 28px 56px -18px rgba(123, 31, 42, 0.12);
+  border: 1px solid rgba(44, 24, 16, 0.06);
+  padding: 22px 26px 18px;
+}
+
+.hub-panel-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 24px;
+  padding: 6px 4px 18px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid rgba(123, 31, 42, 0.1);
+}
+
+.hub-panel-foot {
+  text-align: center;
+  padding-top: 14px;
+  margin-top: 6px;
+  font-size: 11px;
+  color: #78716c;
+  letter-spacing: 0.02em;
+}
+
+.hub-tile-grid {
+  display: grid;
+  gap: 16px;
+  padding-top: 10px;
+}
+
+.hub-tile-grid.is-single {
+  grid-template-columns: 1fr;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.hub-tile-grid.is-pair {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.hub-tile-grid.is-triple {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .hub-tile-grid.is-triple {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.hub-tile-grid.is-quad {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 1080px) {
+  .hub-tile-grid.is-quad {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .hub-tile-grid.is-pair,
+  .hub-tile-grid.is-quad {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hub-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0;
+  padding: 22px 20px 46px;
+  min-height: 156px;
+  border-radius: 16px;
+  text-decoration: none;
+  color: inherit;
+  background: linear-gradient(180deg, #fffefb 0%, #faf8f5 100%);
+  border: 1px solid rgba(44, 24, 16, 0.08);
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+
+  &:focus-visible {
+    outline: 2px solid rgba(123, 31, 42, 0.45);
+    outline-offset: 3px;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 16px 32px -12px rgba(123, 31, 42, 0.14),
+      0 0 0 1px rgba(255, 106, 0, 0.28);
+    border-color: rgba(255, 106, 0, 0.45);
+    background: #fffefb;
+  }
+}
+
+.hub-tile-icon {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  margin-bottom: 14px;
+  box-shadow: 0 8px 18px rgba(44, 24, 16, 0.12);
+}
+
+.hub-tile-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-right: 28px;
+}
+
+.hub-tile-label {
+  font-weight: 700;
+  font-size: 16px;
+  color: #2c1810;
+  letter-spacing: -0.02em;
+}
+
+.hub-tile-hint {
+  font-size: 13px;
+  color: #6b5344;
+  line-height: 1.45;
+}
+
+.hub-tile-arrow {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  font-size: 18px;
+  color: #d6d3d1;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.hub-tile:hover .hub-tile-arrow {
+  color: #e85d00;
+  transform: translateX(4px);
+}
+
+.hub-identity {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.hub-identity-avatar {
+  background: linear-gradient(135deg, #9a2f3c, #7b1f2a);
+  color: #fff;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.hub-identity-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.hub-identity-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: #2c1810;
+}
+
+.hub-identity-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  font-size: 13px;
+  color: #78716c;
+
+  strong {
+    font-size: 15px;
+    color: #44403c;
+    font-variant-numeric: tabular-nums;
+  }
+}

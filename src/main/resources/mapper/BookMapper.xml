@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coding.mapper.BookMapper">
+
+    <!-- 查询书籍列表（带关联查询） -->
+    <select id="selectBookListWithDetails" resultType="com.coding.entity.Book">
+        SELECT
+            b.*,
+            c.name as categoryName,
+            u.username as sellerName
+        FROM book b
+        LEFT JOIN book_category c ON b.category_id = c.category_id
+        LEFT JOIN user u ON b.seller_id = u.user_id
+        WHERE b.deleted = 0
+        <if test="title != null and title != ''">
+            AND b.title LIKE CONCAT('%', #{title}, '%')
+        </if>
+        <if test="categoryId != null">
+            AND b.category_id = #{categoryId}
+        </if>
+        <if test="status != null">
+            AND b.status = #{status}
+        </if>
+        <if test="sellerId != null">
+            AND b.seller_id = #{sellerId}
+        </if>
+        ORDER BY b.create_time DESC
+    </select>
+
+    <!-- 增加浏览次数 -->
+    <update id="increaseViewCount">
+        UPDATE book
+        SET view_count = view_count + 1
+        WHERE book_id = #{bookId}
+    </update>
+
+</mapper>

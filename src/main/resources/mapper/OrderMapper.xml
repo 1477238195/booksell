@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coding.mapper.OrderMapper">
+
+    <!-- 通用结果映射 -->
+    <resultMap id="BaseResultMap" type="com.coding.entity.Order">
+        <id column="order_id" property="orderId"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="buyer_id" property="buyerId"/>
+        <result column="seller_id" property="sellerId"/>
+        <result column="book_id" property="bookId"/>
+        <result column="quantity" property="quantity"/>
+        <result column="total_price" property="totalPrice"/>
+        <result column="status" property="status"/>
+        <result column="payment_time" property="paymentTime"/>
+        <result column="delivery_time" property="deliveryTime"/>
+        <result column="finish_time" property="finishTime"/>
+        <result column="remark" property="remark"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+        <result column="bookTitle" property="bookTitle"/>
+        <result column="bookCoverImage" property="bookCoverImage"/>
+        <result column="buyerName" property="buyerName"/>
+        <result column="sellerName" property="sellerName"/>
+    </resultMap>
+
+    <!-- 分页查询订单列表（带关联查询） -->
+    <select id="selectOrderListWithDetails" resultMap="BaseResultMap">
+        SELECT
+            o.*,
+            b.title as bookTitle,
+            b.cover_image as bookCoverImage,
+            u1.username as buyerName,
+            u2.username as sellerName
+        FROM `order` o
+        LEFT JOIN book b ON o.book_id = b.book_id
+        LEFT JOIN user u1 ON o.buyer_id = u1.user_id
+        LEFT JOIN user u2 ON o.seller_id = u2.user_id
+        WHERE o.deleted = 0
+        <if test="buyerId != null">
+            AND o.buyer_id = #{buyerId}
+        </if>
+        <if test="sellerId != null">
+            AND o.seller_id = #{sellerId}
+        </if>
+        <if test="status != null">
+            AND o.status = #{status}
+        </if>
+        ORDER BY o.create_time DESC
+    </select>
+
+    <select id="listPurchasedBuyerBookPairs" resultType="com.coding.dto.recommend.BuyerBookPair">
+        SELECT DISTINCT o.buyer_id AS buyerId, o.book_id AS bookId
+        FROM `order` o
+        WHERE o.deleted = 0
+          AND o.buyer_id IS NOT NULL
+          AND o.book_id IS NOT NULL
+          AND o.status IN (2, 3, 4)
+    </select>
+
+    <select id="listBookIdsPurchasedByBuyer" resultType="java.lang.Long">
+        SELECT DISTINCT o.book_id
+        FROM `order` o
+        WHERE o.deleted = 0
+          AND o.buyer_id = #{buyerId}
+          AND o.book_id IS NOT NULL
+          AND o.status IN (2, 3, 4)
+    </select>
+
+</mapper>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coding.mapper.BookWantedMapper">
+
+    <!-- 通用结果映射 -->
+    <resultMap id="BaseResultMap" type="com.coding.entity.BookWanted">
+        <id column="wanted_id" property="wantedId"/>
+        <result column="user_id" property="userId"/>
+        <result column="book_title" property="bookTitle"/>
+        <result column="author" property="author"/>
+        <result column="isbn" property="isbn"/>
+        <result column="cover_image" property="coverImage"/>
+        <result column="description" property="description"/>
+        <result column="max_price" property="maxPrice"/>
+        <result column="status" property="status"/>
+        <result column="view_count" property="viewCount"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+        <result column="username" property="username"/>
+    </resultMap>
+
+    <!-- 分页查询求购列表（带关联查询） -->
+    <select id="selectWantedListWithDetails" resultMap="BaseResultMap">
+        SELECT
+            w.wanted_id,
+            w.user_id,
+            w.book_title,
+            w.author,
+            w.isbn,
+            w.cover_image,
+            w.description,
+            w.max_price,
+            w.status,
+            w.view_count,
+            w.create_time,
+            w.update_time,
+            w.deleted,
+            u.username as username
+        FROM book_wanted w
+        LEFT JOIN user u ON w.user_id = u.user_id
+        WHERE w.deleted = 0
+        <if test="bookTitle != null and bookTitle != ''">
+            AND w.book_title LIKE CONCAT('%', #{bookTitle}, '%')
+        </if>
+        <if test="userId != null">
+            AND w.user_id = #{userId}
+        </if>
+        <if test="status != null">
+            AND w.status = #{status}
+        </if>
+        ORDER BY w.create_time DESC
+    </select>
+
+    <!-- 根据ID查询求购详情 -->
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT
+            wanted_id,
+            user_id,
+            book_title,
+            author,
+            isbn,
+            cover_image,
+            description,
+            max_price,
+            status,
+            view_count,
+            create_time,
+            update_time,
+            deleted
+        FROM book_wanted
+        WHERE wanted_id = #{wantedId} AND deleted = 0
+    </select>
+
+    <!-- 增加浏览次数 -->
+    <update id="increaseViewCount">
+        UPDATE book_wanted
+        SET view_count = COALESCE(view_count, 0) + 1
+        WHERE wanted_id = #{wantedId} AND deleted = 0
+    </update>
+
+    <!-- 插入求购信息（包含cover_image字段） -->
+    <insert id="insertWanted" parameterType="com.coding.entity.BookWanted">
+        INSERT INTO book_wanted (
+            user_id,
+            book_title,
+            author,
+            isbn,
+            description,
+            max_price,
+            status,
+            create_time,
+            update_time,
+            deleted,
+            cover_image
+        ) VALUES (
+            #{userId},
+            #{bookTitle},
+            #{author},
+            #{isbn},
+            #{description},
+            #{maxPrice},
+            #{status},
+            #{createTime},
+            #{updateTime},
+            #{deleted},
+            #{coverImage}
+        )
+    </insert>
+
+</mapper>

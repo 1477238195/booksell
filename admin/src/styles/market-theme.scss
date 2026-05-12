@@ -1,0 +1,79 @@
+/* 与 MarketHome 一致：暖纸底 + 酒红主色 + 橙色强调 */
+:root {
+  --market-paper: #f6f1e9;
+  --market-paper-2: #faf6ef;
+  --market-paper-deep: #efe8dc;
+  --market-wine: #7b1f2a;
+  --market-wine-light: #9a2f3c;
+  --market-wine-soft: rgba(123, 31, 42, 0.08);
+  --market-orange: #ff6a00;
+  --market-orange-dark: #e85d00;
+  --market-price: #d4380d;
+  --market-text: #2c1810;
+  --market-text-strong: #1c1917;
+  --market-muted: #6b5344;
+  --market-muted2: #78716c;
+  --market-card: #fffefb;
+  --market-border: rgba(44, 24, 16, 0.08);
+  --market-gradient-page: linear-gradient(180deg, #faf6ef 0%, #f6f1e9 38%, #efe8dc 100%);
+  --market-gradient-wine: linear-gradient(135deg, #9a2f3c 0%, #7b1f2a 100%);
+  --market-gradient-cta: linear-gradient(180deg, #ff7a1a, #e85d00);
+  --color-bg-1: #f6f1e9;
+
+  /* Element Plus 主色（酒红），覆盖默认蓝 */
+  --el-color-primary: #7b1f2a;
+  --el-color-primary-rgb: 123, 31, 42;
+  --el-color-primary-light-3: #9d4a56;
+  --el-color-primary-light-5: #b06a73;
+  --el-color-primary-light-7: #c48a90;
+  --el-color-primary-light-8: #ce9a9f;
+  --el-color-primary-light-9: #e8ccd0;
+  --el-color-primary-dark-2: #621922;
+}
+
+html,
+body,
+#app {
+  color: var(--market-text);
+}
+
+#nprogress .bar {
+  background: var(--market-wine) !important;
+}
+
+#nprogress .peg {
+  box-shadow:
+    0 0 10px var(--market-wine),
+    0 0 5px var(--market-wine) !important;
+}
+
+.hub-layout .el-card {
+  --el-card-bg-color: var(--market-card);
+  border-radius: 14px;
+  border-color: var(--market-border);
+  box-shadow: 0 8px 28px rgba(44, 24, 16, 0.06);
+}
+
+.hub-layout .el-card__header {
+  border-bottom-color: rgba(123, 31, 42, 0.1);
+}
+
+.hub-layout .el-dialog {
+  border-radius: 14px;
+}
+
+.hub-layout .el-table {
+  --el-table-header-bg-color: rgba(123, 31, 42, 0.06);
+  --el-table-row-hover-bg-color: rgba(255, 106, 0, 0.06);
+  --el-table-bg-color: var(--market-card);
+  --el-table-tr-bg-color: var(--market-card);
+}
+
+.hub-layout .el-pagination.is-background .el-pager li.is-active {
+  background-color: var(--market-wine) !important;
+}
+
+.hub-layout .el-pagination.is-background .btn-next,
+.hub-layout .el-pagination.is-background .btn-prev {
+  background-color: #fff !important;
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coding.mapper.ChatMessageMapper">
+    <select id="selectBySessionId" resultType="com.coding.entity.ChatMessage">
+        SELECT id, session_id, user_id, is_user, content, created_at
+        FROM chat_message
+        WHERE session_id = #{sessionId}
+        ORDER BY created_at ASC
+    </select>
+    <delete id="deleteBySessionId">
+        DELETE FROM chat_message WHERE session_id = #{sessionId}
+    </delete>
+</mapper>

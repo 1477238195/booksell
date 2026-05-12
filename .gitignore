@@ -1,0 +1,53 @@
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+.DS_Store
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+/upload/
+*/node_modules
+*/dist
+*.pyc
+
+### Thesis Documents ###
+论文大纲.md
+第1章_绪论.md
+第2章_系统相关技术.md
+第3章_系统分析与设计.md
+第4章_系统核心功能及推荐算法实现.md
+第4章_系统实现与测试.md
+第5章_系统测试与页面展示.md
+第6章_总结与展望.md
+功能实现说明.md
+启动指南.md
+致谢.md
+*.doc
+~$*.doc
+diagrams/
+用例图/
+
+### Tool Configs ###
+.agents/
+.claude/
+.trae/
+.windsurf/
+.skills/
